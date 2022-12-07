@@ -55,6 +55,9 @@ def get_name_author(id):
 def get_last_id():
     return Author.query.order_by(Author.id.desc()).first().id
 
+def nb_livres_author(author_id):
+    return Book.query.filter_by(author_id=author_id).count()
+
 @login_manager.user_loader
 def load_user(username):
     return User.query.get(username)
