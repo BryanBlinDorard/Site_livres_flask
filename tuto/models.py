@@ -1,0 +1,60 @@
+from .app import db, login_manager
+from flask_login import UserMixin
+
+class Author(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(100))
+
+    def __repr__(self):
+        return "Author (%d, %s)" % (self.id, self.name)
+
+
+
+class Book(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    price = db.Column(db.Float)
+    title = db.Column(db.String(100))
+    url = db.Column(db.String(100))
+    img = db.Column(db.String(100))
+    author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
+    author = db.relationship('Author', backref=db.backref('books', 
+    lazy='dynamic'))
+
+    def __repr__(self):
+        return "Book (%d, %s)" % (self.id, self.title)
+
+class User(db.Model, UserMixin):
+    username = db.Column(db.String(100),primary_key=True)
+    password = db.Column(db.String(100))
+
+    def __repr__(self):
+        return "User (%s, %s)" % (self.username, self.password)
+
+    def get_id(self):
+        return self.username
+
+    def get_password(self):
+        return self.password
+
+def get_sample():
+    return Book.query.all()
+
+
+def get_all_author():
+    return Author.query.all()
+
+def get_all_books_for_author(id):
+    return Book.query.filter_by(author_id=id).all()
+
+def get_author(id):
+    return Author.query.get(id)
+
+def get_name_author(id):
+    return Author.query.get(id).name
+
+def get_last_id():
+    return Author.query.order_by(Author.id.desc()).first().id
+
+@login_manager.user_loader
+def load_user(username):
+    return User.query.get(username)
