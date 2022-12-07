@@ -9,7 +9,7 @@ filename='home.css')}}">
 <div class="sample">
     {% for x in authors %}
     <a href="{{url_for('book_author', id=x.id)}}">
-        <p>{{x.name}} - {{x.id}}</p>
+        <p>{{x.name}}</p>
     </a>
     {% endfor %}
 </div>

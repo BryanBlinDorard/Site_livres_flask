@@ -5,7 +5,7 @@
 filename='home.css')}}">
 {% endblock %}
 {% block content %}
-<h1>{{title}}</h1>
+<h1>{{ name }} - {{nb_book}}</h1>
 <div class="sample">
     {% for x in books %}
     <a href="{{url_for('detail', id=x.id)}}">

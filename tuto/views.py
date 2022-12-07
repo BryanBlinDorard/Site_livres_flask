@@ -30,11 +30,11 @@ def detail(id):
 
 @app.route("/author")
 def home2():
-    return render_template("author.html", title="My Books!", authors=get_all_author())
+    return render_template("author.html", title="Tous les auteurs :", authors=get_all_author())
 
 @app.route("/book_author/<id>")
 def book_author(id):
-    return render_template("book_author.html", title="My Books!", name=get_name_author(id) , books=get_all_books_for_author(id))
+    return render_template("book_author.html", title="My Books!", name=get_name_author(id) , books=get_all_books_for_author(id), nb_book=nb_livres_author(id))
 
 class AuthorForm(FlaskForm):
     id = HiddenField()
