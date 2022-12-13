@@ -39,7 +39,7 @@ class User(db.Model, UserMixin):
 def get_sample():
     return Book.query.all()
 
-
+## INFO AUTHOR 
 def get_all_author():
     return Author.query.all()
 
@@ -58,6 +58,27 @@ def get_last_id():
 def nb_livres_author(author_id):
     return Book.query.filter_by(author_id=author_id).count()
 
+def get_author_of_book(id):
+    return Book.query.get(id).author_id
+
+# ## INFO BOOK
+# def get_price_book(id):
+#     return Book.query.get(id).price
+
+# def get_title_book(id):
+#     return Book.query.get(id).title
+
+# def get_url_book(id):
+#     return Book.query.get(id).url
+
+# def get_img_book(id):
+#     return Book.query.get(id).img
+
+# def get_author_book(id):
+#     return Book.query.get(id).author_id
+
+
+## USER 
 @login_manager.user_loader
 def load_user(username):
     return User.query.get(username)

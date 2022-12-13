@@ -26,7 +26,9 @@ def home():
 def detail(id):
     books = get_sample()
     book = books[int(id)-1]
-    return render_template("detail.html", book=book)
+    author_id = get_author_of_book(id)
+    author_name = get_name_author(author_id)
+    return render_template("detail.html", book=book, author_id=author_name)
 
 @app.route("/author")
 def home2():
