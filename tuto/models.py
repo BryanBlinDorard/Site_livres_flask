@@ -26,6 +26,7 @@ class Book(db.Model):
 class User(db.Model, UserMixin):
     username = db.Column(db.String(100),primary_key=True)
     password = db.Column(db.String(100))
+    bibliotheque_id = db.Column(db.Integer, db.ForeignKey('bibliotheque.id'))
 
     def __repr__(self):
         return "User (%s, %s)" % (self.username, self.password)
@@ -39,6 +40,16 @@ class User(db.Model, UserMixin):
 def get_sample():
     return Book.query.all()
 
+class Bibliotheque(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Integer, db.ForeignKey('user.username'))
+
+    def __repr__(self):
+        return "Bibliotheque (%d)" % (self.id)
+
+class AjouterLivre(db.Model):
+    id_livre = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
+    id_bibliothque = db.Column(db.Integer, db.ForeignKey('bibliotheque.id'), primary_key=True)
 
 def get_all_author():
     return Author.query.all()
@@ -54,6 +65,11 @@ def get_name_author(id):
 
 def get_last_id():
     return Author.query.order_by(Author.id.desc()).first().id
+
+def get_id_max_biblio():
+    if Bibliotheque.query.all() == []:
+        raise Exception("Pas de bibliothèques dans la base de donnée.")
+    return Bibliotheque.query.order_by(Bibliotheque.id.desc()).first().id
 
 @login_manager.user_loader
 def load_user(username):
