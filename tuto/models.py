@@ -50,7 +50,7 @@ class Bibliotheque(db.Model):
 
 class AjouterLivre(db.Model):
     id_livre = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
-    id_bibliothque = db.Column(db.Integer, db.ForeignKey('bibliotheque.id'), primary_key=True)
+    id_bibliotheque = db.Column(db.Integer, db.ForeignKey('bibliotheque.id'), primary_key=True)
 
 ## INFO AUTHOR 
 def get_all_author():
@@ -79,6 +79,11 @@ def nb_livres_author(author_id):
 
 def get_author_of_book(id):
     return Book.query.get(id).author_id
+
+def get_livre_bibliotheque(username):
+    return AjouterLivre.query.filter_by(id_bibliotheque=Bibliotheque.query.filter_by(username=username).id)
+
+
 
 # ## INFO BOOK
 # def get_price_book(id):

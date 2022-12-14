@@ -76,3 +76,14 @@ def updatepassword(username,password):
             u.password = m.hexdigest()
             db.session.commit()
             return
+
+@app.cli.command()
+@click.argument('username')
+@click.argument('id_livre')
+def ajouter_livre(username, id_livre):
+    """Pour ajouter un livre dans la bibliothèque d'un utilisateur"""
+    from .models import Bibliotheque, AjouterLivre
+    id_biblio = Bibliotheque.query.filter_by(username=username).first().id
+    ab = AjouterLivre(id_livre=int(id_livre), id_bibliotheque=id_biblio)
+    db.session.add(ab)
+    db.session.commit()
