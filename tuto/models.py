@@ -40,6 +40,7 @@ class User(db.Model, UserMixin):
 def get_sample():
     return Book.query.all()
 
+
 class Bibliotheque(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Integer, db.ForeignKey('user.username'))
@@ -51,6 +52,7 @@ class AjouterLivre(db.Model):
     id_livre = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
     id_bibliothque = db.Column(db.Integer, db.ForeignKey('bibliotheque.id'), primary_key=True)
 
+## INFO AUTHOR 
 def get_all_author():
     return Author.query.all()
 
@@ -66,11 +68,36 @@ def get_name_author(id):
 def get_last_id():
     return Author.query.order_by(Author.id.desc()).first().id
 
+
 def get_id_max_biblio():
     if Bibliotheque.query.all() == []:
         raise Exception("Pas de bibliothèques dans la base de donnée.")
     return Bibliotheque.query.order_by(Bibliotheque.id.desc()).first().id
 
+def nb_livres_author(author_id):
+    return Book.query.filter_by(author_id=author_id).count()
+
+def get_author_of_book(id):
+    return Book.query.get(id).author_id
+
+# ## INFO BOOK
+# def get_price_book(id):
+#     return Book.query.get(id).price
+
+# def get_title_book(id):
+#     return Book.query.get(id).title
+
+# def get_url_book(id):
+#     return Book.query.get(id).url
+
+# def get_img_book(id):
+#     return Book.query.get(id).img
+
+# def get_author_book(id):
+#     return Book.query.get(id).author_id
+
+
+## USER 
 @login_manager.user_loader
 def load_user(username):
     return User.query.get(username)

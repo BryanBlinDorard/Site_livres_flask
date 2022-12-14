@@ -6,7 +6,6 @@
 {% block content %}
 <h1>Add author: </h1>
 <form role="form" method ="POST" action ="{{url_for('save_author')}}">
-    <h1>Add author : </h1>
     {{ form. hidden_tag() }}
     {{ form.name(size=50, class_="form-control") }}
     <input type="submit" value="Enregistrer">
