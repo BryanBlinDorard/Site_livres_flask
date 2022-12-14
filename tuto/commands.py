@@ -1,5 +1,6 @@
 import click
 from .app import app,db
+from .models import get_id_max_biblio
 
 @app.cli.command()
 @click.argument('filename')
@@ -43,12 +44,21 @@ def syncdb():
 @click.argument('password')
 def adduser(username,password):
     """Creates a new user"""
-    from .models import User
+    from .models import User, Bibliotheque
     from hashlib import sha256
     m = sha256()
     m.update(password.encode())
-    u = User(username=username,password=m.hexdigest())
+    id_biblio = 0
+    try:
+        id_biblio = get_id_max_biblio()+1
+    except Exception:
+        pass
+    finally:
+        b = Bibliotheque(id=id_biblio,username=username)
+
+    u = User(username=username,password=m.hexdigest(), bibliotheque_id=id_biblio)
     db.session.add(u)
+    db.session.add(b)
     db.session.commit()
 
 
