@@ -11,4 +11,11 @@
 <div class="sample">
     <img src="{{ url_for('static', filename='images/'+book.img) }}" alt="{{book.title}}" title="{{book.title}}">
 </div>
+{% if current_user.is_authenticated %}
+{% if est_dans_biblio_user  %}
+<input type="button" value="Supprimer de la bibliothèque">
+{% else %}
+<input type="button" value="Ajouter à la bibliothèque">
+{% endif %}
+{% endif %}
 {% endblock %}

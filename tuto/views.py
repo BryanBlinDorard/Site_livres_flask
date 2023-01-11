@@ -24,11 +24,17 @@ def home():
 
 @app.route("/detail/<id>")
 def detail(id):
+    est_dans_biblio_user = False
+    if current_user.is_authenticated:
+        bibliotheque_utilisateur = get_user(current_user.username).livres
+        for livre in bibliotheque_utilisateur:
+            if livre.id == int(id):
+                est_dans_biblio_user = True
     books = get_sample()
     book = books[int(id)-1]
     author_id = get_author_of_book(id)
     author_name = get_name_author(author_id)
-    return render_template("detail.html", book=book, author_id=author_name)
+    return render_template("detail.html", book=book, author_id=author_name, est_dans_biblio_user=est_dans_biblio_user)
 
 @app.route("/author")
 def home2():
