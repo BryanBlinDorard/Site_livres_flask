@@ -102,7 +102,7 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
-# @app.route("/user/bibliotheque/<str:username>")
-# @login_required
-# def bibliotheque_user(username):
-#     ...
+@app.route("/user/bibliotheque/<string:username>")
+@login_required
+def bibliotheque_user(username):
+    return render_template("bibliotheque.html", user=get_user(username))
